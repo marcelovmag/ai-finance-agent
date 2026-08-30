@@ -31,14 +31,32 @@ Este repositório foi criado como um estudo prático de agentes e automação co
 
 ```mermaid
 flowchart LR
-    A[CSVs do NuBank] --> B[Batcher]
-    B --> C[Limpeza e normalização]
-    C --> D[Montagem de lotes]
-    D --> E[Gemini]
-    E --> F[JSON de saída]
-    F --> G[Persistência local]
-    G --> H[Futuro: banco SQL]
-    H --> I[Power BI]
+    %% Configura a primeira coluna (Esquerda)
+    subgraph Coluna1 [Etapa 1: Ingestão de dados]
+        direction TB
+        A[CSVs do NuBank] --> B[Batcher] --> C[Limpeza e normalização]
+    end
+
+    %% Configura a segunda coluna (Centro)
+    subgraph Coluna2 [Etapa 2: Integração com LLM]
+        direction TB
+        D[Montagem de lotes] --> E[Gemini] --> F[JSON de saída]
+    end
+
+    %% Configura a terceira coluna (Direita)
+    subgraph Coluna3 [Etapa 3: Armazenamento e análise dos dados]
+        direction TB
+        G[Persistência local] -.-> H[(Futuro: banco SQL)] -.-> I[Power BI]
+    end
+
+    %% Conexões horizontais obrigatórias entre as colunas
+    C --> D
+    F --> G
+
+    %% Estilos dos nós futuros
+    style H stroke-width:2px,stroke-dasharray: 5 5,fill:#2b2b2b,color:#bbb
+    style I stroke-width:2px,stroke-dasharray: 5 5,fill:#2b2b2b,color:#bbb
+
 ```
 
 ## Estrutura do projeto
